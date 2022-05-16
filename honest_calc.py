@@ -16,6 +16,24 @@ def calculate(_x: float, _y: float, _oper: str) -> float:
         return _x / _y
 
 
+def is_one_digit(var: float) -> bool:
+    return -10 < var < 10 and var.is_integer()
+
+
+def check(_x: float, _y: float, _oper: str) -> str:
+    msg = ''
+    if is_one_digit(_x) and is_one_digit(_y):
+        msg += ' ... lazy'
+    if (_x == 1 or _y == 1) and _oper == '*':
+        msg += ' ... very lazy'
+    if (_x == 0 or _y == 0) and (_oper == '*' or _oper == '+' or _oper == '-'):
+        msg += ' ... very, very lazy'
+    if msg != '':
+        msg = 'You are' + msg
+
+    return msg
+
+
 def store_or_not() -> bool:
     return input('Do you want to store the result? (y / n):') == 'y'
 
@@ -35,12 +53,15 @@ while True:
         if y == 'M':
             y = memory
 
-        float(x), float(y)
+        x, y = float(x), float(y)
 
         if not check_operator(oper):
             print("Yes ... an interesting math operation. You've slept through all classes, haven't you?\nEnter an equation")
         else:
-            result = calculate(float(x), float(y), oper)
+            result_check = check(x, y, oper)
+            if result_check != '':
+                print(result_check)
+            result = calculate(x, y, oper)
             print(result)
             answer_store = store_or_not()
             answer_calculate = calculate_or_not()
