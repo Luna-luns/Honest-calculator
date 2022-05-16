@@ -42,6 +42,27 @@ def calculate_or_not() -> bool:
     return input('Do you want to continue calculations? (y / n):') == 'y'
 
 
+def is_one_digit_for_result(_result: float, _memory: float) -> float:
+    msg_0 = "Are you sure? It is only one digit! (y / n)"
+    msg_1 = "Don't be silly! It's just one number! Add to the memory? (y / n)"
+    msg_2 = "Last chance! Do you really want to embarrass yourself? (y / n)"
+    msg_ = [msg_0, msg_1, msg_2]
+    if is_one_digit(_result):
+        msg_index = 0
+        while True:
+            print(msg_[msg_index])
+            answer = input()
+            if answer == 'y':
+                if msg_index < 2:
+                    msg_index += 1
+                else:
+                    return _result
+            else:
+                return _memory
+    else:
+        return _result
+
+
 print('Enter an equation')
 memory = 0
 while True:
@@ -64,9 +85,9 @@ while True:
             result = calculate(x, y, oper)
             print(result)
             answer_store = store_or_not()
-            answer_calculate = calculate_or_not()
             if answer_store:
-                memory = result
+                memory = is_one_digit_for_result(result, memory)
+            answer_calculate = calculate_or_not()
             if answer_calculate:
                 print('Enter an equation')
                 continue
